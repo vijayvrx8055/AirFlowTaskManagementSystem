@@ -23,9 +23,15 @@ app.get('/tasks/add',(req,res)=>{
   addNewTask(newTask);
   res.json({"tasks": tasks});
 });
-
 function addNewTask(newTask){
   tasks.push(newTask);
+}
+
+app.get('/tasks',(req,res)=>{
+  res.json({"tasks":getCurrentState()});
+});
+function getCurrentState(){
+  return tasks;
 }
 //======================================================================
 app.get('/', (req, res) => {
