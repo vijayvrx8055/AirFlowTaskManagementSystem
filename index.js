@@ -58,6 +58,30 @@ function updatePriority(tasks, taskId, priority){
   }
   return tasks;
 }
+
+app.get('/tasks/edit-text',(req,res)=>{
+  let taskId = parseInt(req.query.taskId);
+  let text = req.query.text;
+  let response = updateText(tasks, taskId, text);
+  res.json({"tasks":response});
+});
+function updateText(tasks, taskId, text){
+  for(let i=0; i<tasks.length; i++){
+    if(tasks[i].taskId === taskId){
+      tasks[i].text = text;
+    }
+  }
+  return tasks;
+}
+
+app.get('/tasks/delete',(req,res)=>{
+  let taskId = parseInt(req.query.taskId);
+  let response = tasks.filter((task)=>removeTaskById(task, taskId));
+  res.json({"tasks":response});
+});
+function removeTaskById(task,taskId){
+  return task.taskId != taskId;
+}
 //======================================================================
 app.get('/', (req, res) => {
   res.sendFile(resolve(__dirname, 'pages/index.html'));
