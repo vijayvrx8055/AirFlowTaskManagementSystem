@@ -33,6 +33,15 @@ app.get('/tasks',(req,res)=>{
 function getCurrentState(){
   return tasks;
 }
+
+app.get('/tasks/sort-by-priority',(req,res)=>{
+  let tasksCopy = tasks.slice();
+  tasksCopy.sort(sortByPriority)
+  res.json({"tasks":tasksCopy});
+});
+function sortByPriority(task1, task2){
+  return task1.priority - task2.priority;
+}
 //======================================================================
 app.get('/', (req, res) => {
   res.sendFile(resolve(__dirname, 'pages/index.html'));
