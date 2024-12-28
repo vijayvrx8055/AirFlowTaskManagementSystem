@@ -1,6 +1,7 @@
 const express = require('express');
 const { resolve } = require('path');
 let cors = require('cors');
+const res = require('express/lib/response');
 
 const app = express();
 const port = 3000;
@@ -41,6 +42,21 @@ app.get('/tasks/sort-by-priority',(req,res)=>{
 });
 function sortByPriority(task1, task2){
   return task1.priority - task2.priority;
+}
+
+app.get('/tasks/edit-priority',(req,res)=>{
+  let taskId = parseInt(req.query.taskId);
+  let priority = parseInt(req.query.priority);
+  let response = updatePriority(tasks, taskId, priority);
+  res.json({"tasks":response});
+});
+function updatePriority(tasks, taskId, priority){
+  for(let i=0; i<tasks.length; i++){
+    if(tasks[i].taskId === taskId){
+      tasks[i].priority = priority;
+    }
+  }
+  return tasks;
 }
 //======================================================================
 app.get('/', (req, res) => {
