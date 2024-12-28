@@ -76,11 +76,20 @@ function updateText(tasks, taskId, text){
 
 app.get('/tasks/delete',(req,res)=>{
   let taskId = parseInt(req.query.taskId);
-  let response = tasks.filter((task)=>removeTaskById(task, taskId));
-  res.json({"tasks":response});
+  tasks = tasks.filter((task)=>removeTaskById(task, taskId));
+  res.json({"tasks":tasks});
 });
 function removeTaskById(task,taskId){
   return task.taskId != taskId;
+}
+
+app.get('/tasks/filter-by-priority',(req,res)=>{
+  let priority = parseInt(req.query.priority);
+  let response = tasks.filter((task)=>filterByPriority(task, priority));
+  res.json({"tasks":response});
+});
+function filterByPriority(task,priority){
+  return task.priority === priority;
 }
 //======================================================================
 app.get('/', (req, res) => {
